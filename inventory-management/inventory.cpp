@@ -162,15 +162,28 @@ void purchaseProduct(vector<Product>& products) {
     // Get new purchase ID
     int purchaseID = getNextPurchaseID();
 
-    // Save purchase details to purchases.csv
+    // Check if purchases.csv exists and has headers
+    ifstream checkFile("purchases.csv");
+    bool fileExists = checkFile.good();
+    checkFile.close();
+
+    // Open file for writing
     ofstream file("purchases.csv", ios::app);
     if (!file) {
         cerr << "Error writing to purchases.csv\n";
         return;
     }
+
+    // Write headers only if the file was newly created
+    if (!fileExists) {
+        file << "id,product_id,customer,quantity,date\n";
+    }
+
+    // Write purchase record
     file << purchaseID << "," << id << "," << customer << "," << qty << "," << date << "\n";
     file.close();
 
+    // Save updated product quantities
     saveProducts(products);
     cout << "Purchase successful!\n";
 }
@@ -230,4 +243,3 @@ int main() {
 
     return 0;
 }
-
