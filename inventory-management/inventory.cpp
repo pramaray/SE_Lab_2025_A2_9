@@ -27,7 +27,7 @@ vector<Product> loadProducts() {
     ifstream file("products.csv");
 
     if (!file) {
-        cerr << "Error opening products.csv. Creating a new file...\n";
+        cerr << "Warning: products.csv not found. Creating a new file...\n";
         return products;
     }
 
@@ -38,10 +38,14 @@ vector<Product> loadProducts() {
         Product p;
         string temp;
 
-        getline(ss, temp, ','); p.id = stoi(temp);
+        getline(ss, temp, ','); 
+        if (temp.empty()) continue;
+        p.id = stoi(temp);
         getline(ss, p.name, ',');
-        getline(ss, temp, ','); p.price = stod(temp);
-        getline(ss, temp, ','); p.quantity = stoi(temp);
+        getline(ss, temp, ','); 
+        p.price = stod(temp);
+        getline(ss, temp, ','); 
+        p.quantity = stoi(temp);
 
         products.push_back(p);
     }
@@ -49,17 +53,17 @@ vector<Product> loadProducts() {
     return products;
 }
 
-// Save updated products to CSV (removes out-of-stock items)
+// Save products back to CSV
 void saveProducts(const vector<Product>& products) {
     ofstream file("products.csv");
     if (!file) {
-        cerr << "Error writing to products.csv\n";
+        cerr << "Error: Unable to save products.csv\n";
         return;
     }
 
-    file << "id,name,price,quantity\n"; // Write header
+    file << "id,name,price,quantity\n";
     for (const auto& p : products) {
-        if (p.quantity > 0) { // Auto-remove out-of-stock items
+        if (p.quantity > 0) {
             file << p.id << "," << p.name << "," << p.price << "," << p.quantity << "\n";
         }
     }
@@ -90,14 +94,7 @@ void addProduct(vector<Product>& products) {
     newProduct.id = products.empty() ? 1 : products.back().id + 1;
     products.push_back(newProduct);
 
-    ofstream file("products.csv", ios::app);
-    if (!file) {
-        cerr << "Error writing to products.csv\n";
-        return;
-    }
-    file << newProduct.id << "," << newProduct.name << "," << newProduct.price << "," << newProduct.quantity << "\n";
-    file.close();
-
+    saveProducts(products);
     cout << "Product added successfully!\n";
 }
 
@@ -122,7 +119,7 @@ void updateProduct(vector<Product>& products) {
         saveProducts(products);
         cout << "Product updated successfully!\n";
     } else {
-        cout << "Product not found.\n";
+        cout << "Error: Product not found.\n";
     }
 }
 
@@ -145,7 +142,7 @@ void deleteProduct(vector<Product>& products) {
         saveProducts(products);
         cout << "Product deleted successfully!\n";
     } else {
-        cout << "Product not found.\n";
+        cout << "Error: Product not found.\n";
     }
 }
 
@@ -189,7 +186,7 @@ void purchaseProduct(vector<Product>& products) {
     }
 
     if (!found) {
-        cout << "Product not found or insufficient stock.\n";
+        cout << "Error: Product not found or insufficient stock.\n";
         return;
     }
 
@@ -224,7 +221,7 @@ void purchaseProduct(vector<Product>& products) {
 void displayPurchaseHistory() {
     ifstream file("purchases.csv");
     if (!file) {
-        cerr << "Error opening purchases.csv\n";
+        cerr << "Error: purchases.csv not found.\n";
         return;
     }
 
@@ -277,4 +274,5 @@ int main() {
     }
     return 0;
 }
+
 
