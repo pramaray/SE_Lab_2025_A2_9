@@ -6,7 +6,6 @@
 
 using namespace std;
 
-// Structure for product data
 struct Product {
     int id;
     string name;
@@ -14,7 +13,6 @@ struct Product {
     int quantity;
 };
 
-// Structure for purchase data
 struct Purchase {
     int id;
     int product_id;
@@ -27,8 +25,9 @@ struct Purchase {
 vector<Product> loadProducts() {
     vector<Product> products;
     ifstream file("products.csv");
+
     if (!file) {
-        cerr << "Error opening products.csv\n";
+        cerr << "Error opening products.csv. Creating a new file...\n";
         return products;
     }
 
@@ -38,7 +37,7 @@ vector<Product> loadProducts() {
         stringstream ss(line);
         Product p;
         string temp;
-        
+
         getline(ss, temp, ','); p.id = stoi(temp);
         getline(ss, p.name, ',');
         getline(ss, temp, ','); p.price = stod(temp);
@@ -50,7 +49,7 @@ vector<Product> loadProducts() {
     return products;
 }
 
-// Save updated products to CSV
+// Save updated products to CSV (removes out-of-stock items)
 void saveProducts(const vector<Product>& products) {
     ofstream file("products.csv");
     if (!file) {
@@ -60,12 +59,14 @@ void saveProducts(const vector<Product>& products) {
 
     file << "id,name,price,quantity\n"; // Write header
     for (const auto& p : products) {
-        file << p.id << "," << p.name << "," << p.price << "," << p.quantity << "\n";
+        if (p.quantity > 0) { // Auto-remove out-of-stock items
+            file << p.id << "," << p.name << "," << p.price << "," << p.quantity << "\n";
+        }
     }
     file.close();
 }
 
-// Display all products
+// Display available products
 void displayProducts(const vector<Product>& products) {
     cout << "\nAvailable Products:\n";
     cout << "ID\tName\t\tPrice\tQuantity\n";
@@ -75,7 +76,7 @@ void displayProducts(const vector<Product>& products) {
     }
 }
 
-// Add a new product
+// Seller: Add a new product
 void addProduct(vector<Product>& products) {
     Product newProduct;
     cout << "Enter Product Name: ";
@@ -86,13 +87,9 @@ void addProduct(vector<Product>& products) {
     cout << "Enter Product Quantity: ";
     cin >> newProduct.quantity;
 
-    // Generate new ID
     newProduct.id = products.empty() ? 1 : products.back().id + 1;
-
-    // Add to list
     products.push_back(newProduct);
 
-    // Append to CSV
     ofstream file("products.csv", ios::app);
     if (!file) {
         cerr << "Error writing to products.csv\n";
@@ -104,22 +101,64 @@ void addProduct(vector<Product>& products) {
     cout << "Product added successfully!\n";
 }
 
+// Seller: Update product quantity
+void updateProduct(vector<Product>& products) {
+    int id, newQty;
+    cout << "Enter Product ID to Update: ";
+    cin >> id;
+    cout << "Enter New Quantity: ";
+    cin >> newQty;
+
+    bool found = false;
+    for (auto& p : products) {
+        if (p.id == id) {
+            p.quantity = newQty;
+            found = true;
+            break;
+        }
+    }
+
+    if (found) {
+        saveProducts(products);
+        cout << "Product updated successfully!\n";
+    } else {
+        cout << "Product not found.\n";
+    }
+}
+
+// Seller: Delete a product
+void deleteProduct(vector<Product>& products) {
+    int id;
+    cout << "Enter Product ID to Delete: ";
+    cin >> id;
+
+    bool found = false;
+    for (auto it = products.begin(); it != products.end(); ++it) {
+        if (it->id == id) {
+            products.erase(it);
+            found = true;
+            break;
+        }
+    }
+
+    if (found) {
+        saveProducts(products);
+        cout << "Product deleted successfully!\n";
+    } else {
+        cout << "Product not found.\n";
+    }
+}
+
 // Get the next available purchase ID
 int getNextPurchaseID() {
     ifstream file("purchases.csv");
-    if (!file) {
-        return 1; // Start from 1 if file doesn't exist
-    }
+    if (!file) return 1; 
 
     string line, lastLine;
-    while (getline(file, line)) {
-        lastLine = line; // Get the last line
-    }
+    while (getline(file, line)) lastLine = line;
     file.close();
 
-    if (lastLine.empty() || lastLine.find("id,product_id") != string::npos) {
-        return 1; // If no valid data, start from 1
-    }
+    if (lastLine.empty() || lastLine.find("id,product_id") != string::npos) return 1;
 
     stringstream ss(lastLine);
     string lastID;
@@ -127,7 +166,7 @@ int getNextPurchaseID() {
     return stoi(lastID) + 1;
 }
 
-// Purchase a product
+// Customer: Purchase a product
 void purchaseProduct(vector<Product>& products) {
     int id, qty;
     string customer;
@@ -154,38 +193,31 @@ void purchaseProduct(vector<Product>& products) {
         return;
     }
 
-    // Get current date
     time_t now = time(0);
     tm *ltm = localtime(&now);
     string date = to_string(1900 + ltm->tm_year) + "-" + to_string(1 + ltm->tm_mon) + "-" + to_string(ltm->tm_mday);
 
-    // Get new purchase ID
     int purchaseID = getNextPurchaseID();
 
-    // Check if purchases.csv exists and has headers
     ifstream checkFile("purchases.csv");
     bool fileExists = checkFile.good();
     checkFile.close();
 
-    // Open file for writing
     ofstream file("purchases.csv", ios::app);
     if (!file) {
         cerr << "Error writing to purchases.csv\n";
         return;
     }
 
-    // Write headers only if the file was newly created
     if (!fileExists) {
         file << "id,product_id,customer,quantity,date\n";
     }
 
-    // Write purchase record
     file << purchaseID << "," << id << "," << customer << "," << qty << "," << date << "\n";
     file.close();
 
-    // Save updated product quantities
     saveProducts(products);
-    cout << "Purchase successful!\n";
+    cout << "Purchase successful! Data stored in purchases.csv\n";
 }
 
 // Display purchase history
@@ -197,7 +229,7 @@ void displayPurchaseHistory() {
     }
 
     string line;
-    getline(file, line); // Skip header
+    getline(file, line);
     cout << "\nPurchase History:\n";
     cout << "ID\tProduct ID\tCustomer\tQuantity\tDate\n";
     cout << "---------------------------------------------------\n";
@@ -212,34 +244,37 @@ void displayPurchaseHistory() {
         getline(ss, quantity, ',');
         getline(ss, date, ',');
 
-        cout << id << "\t" << product_id << "\t\t" << customer << "\t\t" << quantity << "\t\t" << date << "\n";
+        cout << id << "\t" << product_id << "\t" << customer << "\t" << quantity << "\t" << date << "\n";
     }
     file.close();
 }
 
-// Main function
+// Main Menu
 int main() {
     vector<Product> products = loadProducts();
     int choice;
-    do {
-        cout << "\nInventory Management System\n";
-        cout << "1. Display Products\n";
-        cout << "2. Add Product\n";
-        cout << "3. Purchase Product\n";
-        cout << "4. Show Purchase History\n";
-        cout << "5. Exit\n";
-        cout << "Enter choice: ";
-        cin >> choice;
+    cout << "Are you a (1) Seller or (2) Customer? ";
+    cin >> choice;
 
-        switch (choice) {
-            case 1: displayProducts(products); break;
-            case 2: addProduct(products); break;
-            case 3: purchaseProduct(products); break;
-            case 4: displayPurchaseHistory(); break;
-            case 5: cout << "Exiting...\n"; break;
-            default: cout << "Invalid choice, try again.\n";
-        }
-    } while (choice != 5);
-
+    if (choice == 1) {
+        int sellerChoice;
+        do {
+            cout << "\n1. Add Product\n2. Update Product\n3. Delete Product\n4. Exit\nChoice: ";
+            cin >> sellerChoice;
+            if (sellerChoice == 1) addProduct(products);
+            else if (sellerChoice == 2) updateProduct(products);
+            else if (sellerChoice == 3) deleteProduct(products);
+        } while (sellerChoice != 4);
+    } else {
+        int customerChoice;
+        do {
+            cout << "\n1. View Products\n2. Purchase Product\n3. View Purchase History\n4. Exit\nChoice: ";
+            cin >> customerChoice;
+            if (customerChoice == 1) displayProducts(products);
+            else if (customerChoice == 2) purchaseProduct(products);
+            else if (customerChoice == 3) displayPurchaseHistory();
+        } while (customerChoice != 4);
+    }
     return 0;
 }
+
