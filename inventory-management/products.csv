@@ -1,8 +1,8 @@
 id,name,price,quantity
-1,Laptop,75000,10
-2,Mouse,200,47
-3,Keyboard,300,40
-4,Television,26000,28
+1,Laptop,75000,7
+2,Mouse,200,13
+3,Keyboard,300,17
+4,Television,26000,23
 5,Playstation,60000,12
-6,DVD,50,4
-
+6,DVD,50,5
+7,Remote,50,1
