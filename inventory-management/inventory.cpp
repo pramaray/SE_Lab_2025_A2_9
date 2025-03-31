@@ -1,3 +1,16 @@
+/*
+Inventory Management System: Design a system to manage products for a store. Customers can make purchases, and
+sellers can update the list of products. Use Git for version control, and maintain a purchase history of items.
+
+Assigned to: 
+Prama Ray (Roll no 002311001033)
+
+Collaborators:
+Ankita Dhara (Roll no 002311001034)
+Vidhi Mantry (Roll no 002311001043)
+*/
+
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
