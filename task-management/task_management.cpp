@@ -1,7 +1,19 @@
+/*
+Task Management CLI Tool:
+a) Develop a command-line task management tool where users can add, edit, and complete tasks.
+b) Implement version control to track task changes and provide a task history.
+
+Assigned to:
+Vidhi Mantry (Roll number 002311001043)
+
+Collaborators: 
+Prama Ray (Roll nummber 002311001033)
+Ankita Dhara (Roll number 002311001034)
+*/
+
 #include <iostream>
 #include <sqlite3.h>
 #include <vector>
-
 using namespace std;
 
 class TaskManager {
@@ -15,6 +27,7 @@ public:
         sqlite3_close(db);
     }
 
+     // Adds a new task to the database
     void addTask(const string& title, const string& description) {
         string sql = "INSERT INTO tasks (title, description, status) VALUES (?, ?, 'pending');";
         vector<string> params;
@@ -22,7 +35,8 @@ public:
         params.push_back(description);
         executeSQL(sql, params);
     }
-    
+
+    // Edits an existing task based on its ID
     void editTask(int task_id, const string& new_title, const string& new_description) {
         string sql = "UPDATE tasks SET title=?, description=? WHERE id=?;";
         vector<string> params;
@@ -31,34 +45,38 @@ public:
         params.push_back(to_string(task_id));
         executeSQL(sql, params);
     }
-    
+
+     // Marks a task as completed
     void completeTask(int task_id) {
         string sql = "UPDATE tasks SET status='completed' WHERE id=?;";
         vector<string> params;
         params.push_back(to_string(task_id));
         executeSQL(sql, params);
     }
-    
+
+    // Deletes a task from the database
     void deleteTask(int task_id) {
         string sql = "DELETE FROM tasks WHERE id=?;";
         vector<string> params;
         params.push_back(to_string(task_id));
         executeSQL(sql, params);
     }
-
+    
+    // Lists all tasks with their details
     void listTasks() {
         string sql = "SELECT id, title, description, status FROM tasks;";
         vector<string> params;
         executeSQL(sql, params, true);
     }
     
-    
+    // Shows the task modification history
     void showHistory() {
         string sql = "SELECT * FROM history;";
         vector<string> params; 
         executeSQL(sql, params, true);
     }
-    
+
+    // Resets the system by deleting all tables and recreating them
     void resetSystem() {
         string sql = "DROP TABLE IF EXISTS tasks; DROP TABLE IF EXISTS history;";
         vector<string> params;  
@@ -68,8 +86,9 @@ public:
     }
     
 private:
-    sqlite3* db;
+    sqlite3* db; // Database connection pointer
 
+    // Creates the required tables if they do not exist
     void createTables() {
         const char* task_table = 
             "CREATE TABLE IF NOT EXISTS tasks ("
@@ -79,7 +98,7 @@ private:
             "status TEXT NOT NULL);";
     
         sqlite3_exec(db, task_table, 0, 0, 0);
-    
+
         const char* history_table = 
             "CREATE TABLE IF NOT EXISTS history ("
             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -90,7 +109,7 @@ private:
         sqlite3_exec(db, history_table, 0, 0, 0);
     }
     
-
+    // Logs history of task modifications
     void logHistory(int task_id, const string& action) {
         string sql = "INSERT INTO history (task_id, action) VALUES (?, ?);";
         vector<string> params;
@@ -99,6 +118,7 @@ private:
         executeSQL(sql, params);
     }
 
+    // Executes SQL commands and optionally fetches results
     void executeSQL(const string& sql, const vector<string>& params, bool fetch = false) {
         sqlite3_stmt* stmt;
         sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
@@ -185,7 +205,6 @@ int main() {
                 break;
             default:
                 cout << "Invalid choice. Try again.\n";
-                break;
         }
     } while (choice != 8);
     return 0;
