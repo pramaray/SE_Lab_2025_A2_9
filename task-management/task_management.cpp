@@ -137,7 +137,7 @@ private:
 };
 
 int main() {
-    cout << "\nWelcome to the Task Management Tool!\n";
+    cout << "\nWelcome to the Task Management CLI Tool!\n";
     TaskManager tm("tasks.db");
     int choice;
     do {
