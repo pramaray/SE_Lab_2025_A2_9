@@ -19,7 +19,7 @@
 🔹 purchases.csv – Stores purchase history.   
 
 ## 📜 File Structure
-📂 Inventory-Management
+📂 Inventory-Management   
  ├── inventory.cpp        # Main C++ source code   
  ├── products.csv         # Product inventory storage   
  ├── purchases.csv        # Purchase history storage    
@@ -43,7 +43,7 @@ g++ inventory.cpp -o inventory
 | 1 |	2	| Alice |	2	 | 2025-03-31 |
 
 ## Assigned to: 
-Prama Ray (Roll no 002311001033)
+Prama Ray _(Roll no 002311001033)_
 
 ## Collaborators:
 Ankita Dhara _(Roll no 002311001034)_   
