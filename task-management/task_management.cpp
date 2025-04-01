@@ -185,6 +185,7 @@ int main() {
                 break;
             default:
                 cout << "Invalid choice. Try again.\n";
+                break;
         }
     } while (choice != 8);
     return 0;
