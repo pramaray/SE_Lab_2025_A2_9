@@ -43,7 +43,7 @@ Upon running the program, one will see the following menu:
 1. Add Task
 2. Edit Task
 3. Complete Task
-4. View Tasks
+4. View Tasksgit 
 5. View Task History
 6. Delete Task
 7. Reset System
