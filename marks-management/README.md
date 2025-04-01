@@ -40,7 +40,7 @@ pip install sqlite3
 
 ### **2️⃣ Run the Program**  
 ```bash
-python marks_management.py
+python A2_09_4_q2.py
 ```
 
 ---
@@ -51,7 +51,7 @@ python marks_management.py
 | id  | student_name | subject | marks |  
 |-----|-------------|---------|-------|  
 | 1   | Ankit Sharma | Math    | 90    |  
-| 2   | Priya Verma  | Science | 85    |  
+| 2   | Priya Verma  | OOS | 85    |  
 
 ---
 
