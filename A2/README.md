@@ -40,7 +40,7 @@ pip install sqlite3
 
 ### **2️⃣ Run the Program**  
 ```bash
-python A2_09_4_q2.py
+python A2_09_4.py
 ```
 
 ---
