@@ -7,7 +7,7 @@ This repository contains implementations of three different systems developed as
 
 | Name | Roll Number | Question |
 |------|------------|----------|
-| Prama Ray | 002311001033 | A1: Inventory Management System |
+| Prama Ray(L) | 002311001033 | A1: Inventory Management System |
 | Ankita Dhara | 002311001034 | A2: Marks Management System |
 | Vidhi Mantry | 002311001043 | A3: Task Management CLI Tool |
 
