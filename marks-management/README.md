@@ -19,14 +19,14 @@ It allows teachers to store student marks, update records, and generate reports 
 ---
 
 ## **📂 Data Storage**  
-🔹 **marks.db** – Stores student marks in an SQLite database.  
+🔹 **A2_09_4_Q2.db** – Stores student marks in an SQLite database.  
 
 ---
 
 ## **📜 File Structure**  
 📂 Marks-Management  
- ├── **marks_management.py**  *(Main Python script)*  
- ├── **marks.db**  *(Database storing student marks)*  
+ ├── **A2_09_4_q2.py**  *(Main Python script)*  
+ ├── **A2_09_4_Q2.db**  *(Database storing student marks)*  
  ├── **README.md**  *(Project Documentation)*  
 
 ---
