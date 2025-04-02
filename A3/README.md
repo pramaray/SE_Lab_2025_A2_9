@@ -24,7 +24,7 @@ Ensure you have the following installed:
 ## 📜 File Structure
 📂 Task-Management   
  ├── A2_9_4.cpp        # Main source code   
- ├── A2_09_4.db        # Database Storage    
+ ├── A2_9_4.db         # Database Storage    
  ├── README.md         # Project Documentation  
 
 ### 💻 Compilation
