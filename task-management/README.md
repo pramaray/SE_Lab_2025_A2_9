@@ -80,5 +80,3 @@ Ankita Dhara _(Roll number 002311001034)_
 This project is open-source and licensed under the **MIT License**.
 
 ---
-
-added nothing
