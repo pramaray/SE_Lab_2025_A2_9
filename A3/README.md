@@ -1,5 +1,4 @@
 # Task Management CLI Tool
-g++ -std=c++11 task_management.cpp -o task_management -lsqlite3
 ## 🚀 Introduction
 The **Task Management CLI Tool** is a simple yet powerful command-line application written in **C++** that allows users to efficiently manage their tasks. It provides features such as adding, editing, completing, deleting, and viewing tasks. Additionally, it includes a version control system to track changes and maintain a history of all task modifications.
 
@@ -22,16 +21,22 @@ Ensure you have the following installed:
 -  **g++** (GCC Compiler)
 -  **SQLite3** library
 
+## 📜 File Structure
+📂 Task-Management   
+ ├── A2_9_4.cpp        # Main source code   
+ ├── A2_09_4.db        # Database Storage    
+ ├── README.md         # Project Documentation  
+
 ### 💻 Compilation
 Run the following command to compile the program:
 ```sh
- 
+ g++ -std=c++11 A2_9_4.cpp -o A2_9_4 -lsqlite3
 ```
 
 ### ▶️ Running the Program
 After compilation, execute the program:
 ```sh
-./task_management
+./A2_9_4
 ```
 
 ## 📌 Usage
@@ -74,11 +79,7 @@ The tool uses **SQLite** to store tasks and their history.
 Vidhi Mantry _(Roll number 002311001043)_
 
 ## Collaborators:
-Prama Ray _(Roll number 002311001033)_
-Ankita Dhara _(Roll number 002311001034)_
-
-## 📜 License
-This project is open-source and licensed under the **MIT License**.
+Prama Ray _(Roll no 002311001033)_  
+Ankita Dhara _(Roll no 002311001034)_   
 
 ---
-

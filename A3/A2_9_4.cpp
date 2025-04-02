@@ -7,7 +7,7 @@ Assigned to:
 Vidhi Mantry (Roll number 002311001043)
 
 Collaborators: 
-Prama Ray (Roll nummber 002311001033)
+Prama Ray (Roll number 002311001033)
 Ankita Dhara (Roll number 002311001034)
 */
 
@@ -29,11 +29,13 @@ public:
 
      // Adds a new task to the database
     void addTask(const string& title, const string& description) {
-        string sql = "INSERT INTO tasks (title, description, status) VALUES (?, ?, 'pending');";
+        string sql = "INSERT INTO tasks (title, description, status) VALUES (?, ?, 'Pending');";
         vector<string> params;
         params.push_back(title);
         params.push_back(description);
         executeSQL(sql, params);
+        int lastID = sqlite3_last_insert_rowid(db);
+        logHistory(lastID, "Created");
     }
 
     // Edits an existing task based on its ID
@@ -44,14 +46,16 @@ public:
         params.push_back(new_description);
         params.push_back(to_string(task_id));
         executeSQL(sql, params);
+        logHistory(task_id, "Updated");
     }
 
      // Marks a task as completed
     void completeTask(int task_id) {
-        string sql = "UPDATE tasks SET status='completed' WHERE id=?;";
+        string sql = "UPDATE tasks SET status='Completed' WHERE id=?;";
         vector<string> params;
         params.push_back(to_string(task_id));
         executeSQL(sql, params);
+        logHistory(task_id, "Completed");
     }
 
     // Deletes a task from the database
@@ -60,6 +64,7 @@ public:
         vector<string> params;
         params.push_back(to_string(task_id));
         executeSQL(sql, params);
+        logHistory(task_id, "DCD eleted");
     }
     
     // Lists all tasks with their details
@@ -82,7 +87,7 @@ public:
         vector<string> params;  
         executeSQL(sql, params);
         createTables();
-        cout << "System reset successfully.\\n";
+        cout << "System reset successfully.\n";
     }
     
 private:
@@ -138,7 +143,7 @@ private:
 
 int main() {
     cout << "\nWelcome to the Task Management CLI Tool!\n";
-    TaskManager tm("tasks.db");
+    TaskManager tm("A2_9_4.db");
     int choice;
     do {
         cout << "\nCommands:";
