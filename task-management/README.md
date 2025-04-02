@@ -1,5 +1,5 @@
 # Task Management CLI Tool
-
+g++ -std=c++11 task_management.cpp -o task_management -lsqlite3
 ## 🚀 Introduction
 The **Task Management CLI Tool** is a simple yet powerful command-line application written in **C++** that allows users to efficiently manage their tasks. It provides features such as adding, editing, completing, deleting, and viewing tasks. Additionally, it includes a version control system to track changes and maintain a history of all task modifications.
 
@@ -25,7 +25,7 @@ Ensure you have the following installed:
 ### 💻 Compilation
 Run the following command to compile the program:
 ```sh
- g++ -std=c++11 task_management.cpp -o task_management -lsqlite3
+ 
 ```
 
 ### ▶️ Running the Program
