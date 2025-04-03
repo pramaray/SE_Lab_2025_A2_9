@@ -17,7 +17,7 @@ The **Task Management CLI Tool** is a simple yet powerful command-line applicati
 
 ## 📥 Installation
 ### 🔧 Prerequisites
-Ensure you have the following installed:
+Ensure one has the following installed:
 -  **g++** (GCC Compiler)
 -  **SQLite3** library
 
@@ -48,7 +48,7 @@ Upon running the program, one will see the following menu:
 1. Add Task
 2. Edit Task
 3. Complete Task
-4. View Tasksgit 
+4. View Tasks
 5. View Task History
 6. Delete Task
 7. Reset System
@@ -79,7 +79,7 @@ The tool uses **SQLite** to store tasks and their history.
 Vidhi Mantry _(Roll number 002311001043)_
 
 ## Collaborators:
-Prama Ray _(Roll no 002311001033)_  
-Ankita Dhara _(Roll no 002311001034)_   
+Prama Ray _(Roll number 002311001033)_  
+Ankita Dhara _(Roll number 002311001034)_   
 
 ---
